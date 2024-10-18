@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { TextField, Button, Grid, Typography, CircularProgress, Autocomplete, Snackbar } from '@mui/material';
+import { useParams } from 'react-router-dom'; // Para obter o ID da URL
 
-const initialMovieState = {
+// Definindo o tipo de um ator
+interface Actor {
+  id: number;
+  name: string;
+}
+
+// Definindo o tipo do filme
+interface Movie {
+  name: string;
+  directorId: number | null;
+  studioId: number | null;
+  actorIds: number[];
+  synopsis: string;
+  country: string;
+}
+
+const initialMovieState: Movie = {
   name: '',
   directorId: null,
   studioId: null,
@@ -12,9 +29,10 @@ const initialMovieState = {
 };
 
 const MovieForm: React.FC = () => {
-  const [movie, setMovie] = useState(initialMovieState);
+  const { id } = useParams(); // Obter o ID da URL
+  const [movie, setMovie] = useState<Movie>(initialMovieState);
   const [directors, setDirectors] = useState<any[]>([]);
-  const [actors, setActors] = useState<any[]>([]);
+  const [actors, setActors] = useState<Actor[]>([]); // Tipando atores
   const [studios, setStudios] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -32,7 +50,14 @@ const MovieForm: React.FC = () => {
     axios.get('http://localhost:5119/studios') // Fetch studios
       .then(response => setStudios(response.data))
       .catch(error => console.error('Error fetching studios:', error));
-  }, []);
+
+    // Se houver um ID, buscar os dados do filme para edição
+    if (id) {
+      axios.get(`http://localhost:5119/movies/${id}`)
+        .then(response => setMovie(response.data))
+        .catch(error => console.error('Error fetching movie:', error));
+    }
+  }, [id]); // Dependência no ID
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,8 +68,8 @@ const MovieForm: React.FC = () => {
     setMovie({ ...movie, directorId: value?.id || null });
   };
 
-  const handleActorsChange = (event: any, value: any) => {
-    setMovie({ ...movie, actorIds: value.map((actor: any) => actor.id) });
+  const handleActorsChange = (event: any, value: Actor[]) => {
+    setMovie({ ...movie, actorIds: value.map((actor: Actor) => actor.id) });
   };
 
   const handleStudioChange = (event: any, value: any) => {
@@ -55,11 +80,15 @@ const MovieForm: React.FC = () => {
     e.preventDefault();
     setLoading(true);
 
-    axios.post('http://localhost:5119/movies', movie)
+    const saveOrUpdate = id
+      ? axios.put(`http://localhost:5119/movies/${id}`, movie)
+      : axios.post('http://localhost:5119/movies', movie);
+
+    saveOrUpdate
       .then(() => {
         setLoading(false);
         setSuccess(true);
-        setMovie(initialMovieState); // Reset form after submission
+        if (!id) setMovie(initialMovieState); // Reset form if it's a new movie
       })
       .catch((error) => {
         console.error('Error saving movie:', error);
@@ -69,7 +98,7 @@ const MovieForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Typography variant="h4" gutterBottom>Manage Movies</Typography>
+      <Typography variant="h4" gutterBottom>{id ? 'Edit Movie' : 'Add Movie'}</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
@@ -86,6 +115,7 @@ const MovieForm: React.FC = () => {
             options={directors}
             getOptionLabel={(option) => option.name}
             onChange={handleDirectorChange}
+            value={directors.find(d => d.id === movie.directorId) || null} // Preencher o valor selecionado
             renderInput={(params) => <TextField {...params} label="Director" />}
           />
         </Grid>
@@ -94,6 +124,7 @@ const MovieForm: React.FC = () => {
             options={studios} // Studio select
             getOptionLabel={(option) => option.name}
             onChange={handleStudioChange}
+            value={studios.find(s => s.id === movie.studioId) || null} // Preencher o valor selecionado
             renderInput={(params) => <TextField {...params} label="Studio" />}
           />
         </Grid>
@@ -103,6 +134,7 @@ const MovieForm: React.FC = () => {
             options={actors}
             getOptionLabel={(option) => option.name}
             onChange={handleActorsChange}
+            value={actors.filter((a: Actor) => movie.actorIds.includes(a.id))} // Tipado corretamente
             renderInput={(params) => <TextField {...params} label="Actors" />}
           />
         </Grid>
