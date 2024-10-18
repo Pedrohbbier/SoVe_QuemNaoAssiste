@@ -6,16 +6,19 @@ import MovieForm from './components/MovieForm';
 import DirectorForm from './components/DirectorForm';
 import ActorForm from './components/ActorForm';
 import StudioForm from './components/StudioForm';
+import ActorList from './components/ActorsList';
+import DirectorList from './components/DirectorList';
+import StudioList from './components/StudioList';
 
 function App() {
   return (
     <Router>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Movies Management App
-          </Typography>
           <Button color="inherit" component={Link} to="/">View Movies</Button>
+          <Button color="inherit" component={Link} to="/actors">View Actors</Button>
+          <Button color="inherit" component={Link} to="/directors">View Directors</Button>
+          <Button color="inherit" component={Link} to="/studios">View Studios</Button>
           <Button color="inherit" component={Link} to="/manage-movies">Manage Movies</Button>
           <Button color="inherit" component={Link} to="/manage-directors">Manage Directors</Button>
           <Button color="inherit" component={Link} to="/manage-actors">Manage Actors</Button>
@@ -25,6 +28,9 @@ function App() {
       <Container>
         <Routes>
           <Route path="/" element={<MoviesList />} />
+          <Route path="/actors" element={<ActorList />} />
+          <Route path="/directors" element={<DirectorList />} />
+          <Route path="/studios" element={<StudioList />} />
           <Route path="/manage-movies" element={<MovieForm />} />
           <Route path="/manage-movies/:id" element={<MovieForm />} /> {/* Rota para editar filmes */}
           <Route path="/manage-directors" element={<DirectorForm />} />

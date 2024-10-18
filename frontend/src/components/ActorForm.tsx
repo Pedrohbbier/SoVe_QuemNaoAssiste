@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, Grid, Typography, Snackbar } from '@mui/material';
+import { TextField, Button, Grid, Typography, CircularProgress, Snackbar } from '@mui/material';
+import { useParams } from 'react-router-dom'; // Para obter o ID da URL
 
-const initialActorState = {
+interface Actor {
+  name: string;
+  description: string;
+}
+
+const initialActorState: Actor = {
   name: '',
   description: '',
 };
 
 const ActorForm: React.FC = () => {
-  const [actor, setActor] = useState(initialActorState);
+  const { id } = useParams(); // Obter o ID da URL
+  const [actor, setActor] = useState<Actor>(initialActorState);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    // Se houver um ID, buscar os dados do ator para edição
+    if (id) {
+      axios.get(`http://localhost:5119/actors/${id}`)
+        .then(response => setActor(response.data))
+        .catch(error => console.error('Error fetching actor:', error));
+    }
+  }, [id]); // Dependência no ID
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,18 +35,27 @@ const ActorForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
-    axios.post('http://localhost:5119/actors', actor)
+    const saveOrUpdate = id
+      ? axios.put(`http://localhost:5119/actors/${id}`, actor)
+      : axios.post('http://localhost:5119/actors', actor);
+
+    saveOrUpdate
       .then(() => {
+        setLoading(false);
         setSuccess(true);
-        setActor(initialActorState);
+        if (!id) setActor(initialActorState); // Reset form if it's a new actor
       })
-      .catch((error) => console.error('Error saving actor:', error));
+      .catch((error) => {
+        console.error('Error saving actor:', error);
+        setLoading(false);
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Typography variant="h4" gutterBottom>Manage Actors</Typography>
+    <form onSubmit={handleSubmit} style={{ marginTop: 20 }} >
+      <Typography variant="h4" gutterBottom>{id ? 'Edit Actor' : 'Add Actor'}</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
@@ -52,7 +78,14 @@ const ActorForm: React.FC = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary">Save Actor</Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Save Actor'}
+          </Button>
         </Grid>
       </Grid>
       <Snackbar

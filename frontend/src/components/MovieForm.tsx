@@ -97,7 +97,7 @@ const MovieForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ marginTop: 20 }} >
       <Typography variant="h4" gutterBottom>{id ? 'Edit Movie' : 'Add Movie'}</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
