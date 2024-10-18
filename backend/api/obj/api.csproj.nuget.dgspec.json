@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/SoVe_QuemNaoAssiste/Api/Api.csproj": {}
+    "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/api.csproj": {}
   },
   "projects": {
-    "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/SoVe_QuemNaoAssiste/Api/Api.csproj": {
+    "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/SoVe_QuemNaoAssiste/Api/Api.csproj",
-        "projectName": "Api",
-        "projectPath": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/SoVe_QuemNaoAssiste/Api/Api.csproj",
+        "projectUniqueName": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/api.csproj",
+        "projectName": "api",
+        "projectPath": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/api.csproj",
         "packagesPath": "/Users/pedrohbbier/.nuget/packages/",
-        "outputPath": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/SoVe_QuemNaoAssiste/Api/obj/",
+        "outputPath": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/pedrohbbier/.nuget/NuGet/NuGet.Config"
