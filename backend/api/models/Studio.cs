@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace api.models
 {
     public class Studio
@@ -7,6 +9,7 @@ namespace api.models
         public string Country { get; set; }
 
         // Navigation property
+        [JsonIgnore]
         public List<Movies> Movies { get; set; }
     }
 }

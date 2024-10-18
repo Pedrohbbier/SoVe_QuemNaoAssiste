@@ -10,7 +10,7 @@ using api.data;
 namespace api.Migrations
 {
     [DbContext(typeof(MoviesDbContext))]
-    [Migration("20241018125328_InitialCreate")]
+    [Migration("20241018134351_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

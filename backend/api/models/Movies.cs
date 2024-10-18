@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace api.models
 {
@@ -16,7 +15,8 @@ namespace api.models
         // Navigation properties
         public Director Director { get; set; }
         public Studio Studio { get; set; } // Adicionando a propriedade Studio
-        
+
+        [JsonIgnore]
         public List<Actors> Actors { get; set; }
     }
 }

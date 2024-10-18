@@ -1,4 +1,4 @@
-using System;
+using System.Text.Json.Serialization;
 
 namespace api.models
 {
@@ -9,6 +9,7 @@ namespace api.models
         public string Description { get; set; }
 
         // Navigation property
+        [JsonIgnore]
         public List<Movies> Movies { get; set; }
     }
 }
