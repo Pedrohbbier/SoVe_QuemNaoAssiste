@@ -10,7 +10,7 @@ using api.data;
 namespace api.Migrations
 {
     [DbContext(typeof(MoviesDbContext))]
-    [Migration("20241018115009_InitialCreate")]
+    [Migration("20241018121817_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -41,9 +41,11 @@ namespace api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -58,9 +60,11 @@ namespace api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -75,21 +79,25 @@ namespace api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ActorIds")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DirectorId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("StudioId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Synopsis")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

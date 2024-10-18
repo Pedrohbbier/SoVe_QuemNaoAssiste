@@ -44,7 +44,7 @@ GET http://localhost:5119/directors
 ### Get a director by ID
 GET http://localhost:5119/directors/1
 
-### Create a new director
+### Create a new director //Por algum motivo pelo postman funcionou
 POST http://localhost:5119/directors
 Content-Type: application/json
 
