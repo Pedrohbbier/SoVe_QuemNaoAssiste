@@ -1,0 +1,96 @@
+### Movies CRUD
+
+### Get all movies
+GET http://localhost:5119/movies
+
+# Get a movie by ID
+GET http://localhost:5119/movies/1
+
+### Create a new movie
+POST http://localhost:5119/movies
+Content-Type: application/json
+
+{
+  "name": "Inception",
+  "directorId": 1,
+  "studioId": 1,
+  "actorIds": [1, 2],
+  "synopsis": "A mind-bending thriller about dream manipulation.",
+  "country": "USA"
+}
+
+### Update a movie by ID
+PUT http://localhost:5119/movies/1
+Content-Type: application/json
+
+{
+  "name": "Inception Updated",
+  "directorId": 1,
+  "studioId": 1,
+  "actorIds": [1, 2],
+  "synopsis": "A thriller about manipulating dreams.",
+  "country": "USA"
+}
+
+### Delete a movie by ID
+DELETE http://localhost:5119/movies/1
+
+
+### Directors CRUD
+
+### Get all directors
+GET http://localhost:5119/directors
+
+### Get a director by ID
+GET http://localhost:5119/directors/1
+
+### Create a new director
+POST http://localhost:5119/directors
+Content-Type: application/json
+
+{
+  "name": "Christopher Nolan",
+  "description": "Director of mind-bending thrillers."
+}
+
+# Update a director by ID
+PUT http://localhost:5119/directors/1
+Content-Type: application/json
+
+{
+  "name": "Christopher Nolan Updated",
+  "description": "Famous director of mind-bending thrillers."
+}
+
+### Delete a director by ID
+DELETE http://localhost:5119/directors/1
+
+
+### Actors CRUD
+
+### Get all actors
+GET http://localhost:5119/actors
+
+### Get an actor by ID
+GET http://localhost:5119/actors/1
+
+### Create a new actor
+POST http://localhost:5119/actors
+Content-Type: application/json
+
+{
+  "name": "Leonardo DiCaprio",
+  "description": "Famous actor known for diverse roles."
+}
+
+### Update an actor by ID
+PUT http://localhost:5119/actors/1
+Content-Type: application/json
+
+{
+  "name": "Leonardo DiCaprio Updated",
+  "description": "Academy Award-winning actor."
+}
+
+### Delete an actor by ID
+DELETE http://localhost:5119/actors/1
