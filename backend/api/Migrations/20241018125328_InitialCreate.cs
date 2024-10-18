@@ -39,6 +39,20 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Studios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Country = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Studios", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Movies",
                 columns: table => new
                 {
@@ -58,6 +72,12 @@ namespace api.Migrations
                         name: "FK_Movies_Directors_DirectorId",
                         column: x => x.DirectorId,
                         principalTable: "Directors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Movies_Studios_StudioId",
+                        column: x => x.StudioId,
+                        principalTable: "Studios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -95,6 +115,11 @@ namespace api.Migrations
                 name: "IX_Movies_DirectorId",
                 table: "Movies",
                 column: "DirectorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_StudioId",
+                table: "Movies",
+                column: "StudioId");
         }
 
         /// <inheritdoc />
@@ -111,6 +136,9 @@ namespace api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Directors");
+
+            migrationBuilder.DropTable(
+                name: "Studios");
         }
     }
 }

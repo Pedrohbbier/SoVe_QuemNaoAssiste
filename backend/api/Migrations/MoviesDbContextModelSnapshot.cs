@@ -101,7 +101,28 @@ namespace api.Migrations
 
                     b.HasIndex("DirectorId");
 
+                    b.HasIndex("StudioId");
+
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("api.models.Studio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Studios");
                 });
 
             modelBuilder.Entity("ActorsMovies", b =>
@@ -127,10 +148,23 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("api.models.Studio", "Studio")
+                        .WithMany("Movies")
+                        .HasForeignKey("StudioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Director");
+
+                    b.Navigation("Studio");
                 });
 
             modelBuilder.Entity("api.models.Director", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("api.models.Studio", b =>
                 {
                     b.Navigation("Movies");
                 });

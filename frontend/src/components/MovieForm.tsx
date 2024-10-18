@@ -5,7 +5,7 @@ import { TextField, Button, Grid, Typography, CircularProgress, Autocomplete, Sn
 const initialMovieState = {
   name: '',
   directorId: null,
-  studioId: '',
+  studioId: null,
   actorIds: [],
   synopsis: '',
   country: '',
@@ -15,11 +15,12 @@ const MovieForm: React.FC = () => {
   const [movie, setMovie] = useState(initialMovieState);
   const [directors, setDirectors] = useState<any[]>([]);
   const [actors, setActors] = useState<any[]>([]);
+  const [studios, setStudios] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // Fetch directors and actors when the component loads
+    // Fetch directors, actors, and studios when the component loads
     axios.get('http://localhost:5119/directors')
       .then(response => setDirectors(response.data))
       .catch(error => console.error('Error fetching directors:', error));
@@ -27,6 +28,10 @@ const MovieForm: React.FC = () => {
     axios.get('http://localhost:5119/actors')
       .then(response => setActors(response.data))
       .catch(error => console.error('Error fetching actors:', error));
+
+    axios.get('http://localhost:5119/studios') // Fetch studios
+      .then(response => setStudios(response.data))
+      .catch(error => console.error('Error fetching studios:', error));
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +45,10 @@ const MovieForm: React.FC = () => {
 
   const handleActorsChange = (event: any, value: any) => {
     setMovie({ ...movie, actorIds: value.map((actor: any) => actor.id) });
+  };
+
+  const handleStudioChange = (event: any, value: any) => {
+    setMovie({ ...movie, studioId: value?.id || null });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -81,12 +90,11 @@ const MovieForm: React.FC = () => {
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="Studio ID"
-            name="studioId"
-            value={movie.studioId}
-            onChange={handleInputChange}
+          <Autocomplete
+            options={studios} // Studio select
+            getOptionLabel={(option) => option.name}
+            onChange={handleStudioChange}
+            renderInput={(params) => <TextField {...params} label="Studio" />}
           />
         </Grid>
         <Grid item xs={12}>

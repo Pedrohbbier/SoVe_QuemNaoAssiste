@@ -32,7 +32,12 @@ using (var scope = app.Services.CreateScope())
 // Routes for Movies
 
 app.MapGet("/movies", async (MoviesDbContext db) =>
-    await db.Movies.Include(m => m.Director).Include(m => m.Actors).ToListAsync());
+    await db.Movies
+            .Include(m => m.Director)  // Inclui o Diretor
+            .Include(m => m.Actors)    // Inclui os Atores
+            .Include(m => m.Studio)    // Inclui o Studio
+            .ToListAsync());
+
 
 app.MapGet("/movies/{id}", async (int id, MoviesDbContext db) =>
     await db.Movies.Include(m => m.Director).Include(m => m.Actors).FirstOrDefaultAsync(m => m.Id == id) is Movies movie
@@ -155,5 +160,46 @@ app.MapDelete("/actors/{id}", async (int id, MoviesDbContext db) =>
     await db.SaveChangesAsync();
     return Results.Ok(actor);
 });
+
+// Routes for Studios
+app.MapGet("/studios", async (MoviesDbContext db) =>
+    await db.Studios.ToListAsync());
+
+app.MapGet("/studios/{id}", async (int id, MoviesDbContext db) =>
+    await db.Studios.FindAsync(id) is Studio studio
+    ? Results.Ok(studio)
+    : Results.NotFound());
+
+app.MapPost("/studios", async (Studio studio, MoviesDbContext db) =>
+{
+    db.Studios.Add(studio);
+    await db.SaveChangesAsync();
+    return Results.Created($"/studios/{studio.Id}", studio);
+});
+
+app.MapPut("/studios/{id}", async (int id, Studio updatedStudio, MoviesDbContext db) =>
+{
+    var studio = await db.Studios.FindAsync(id);
+
+    if (studio is null) return Results.NotFound();
+
+    studio.Name = updatedStudio.Name;
+    studio.Country = updatedStudio.Country;
+
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
+app.MapDelete("/studios/{id}", async (int id, MoviesDbContext db) =>
+{
+    var studio = await db.Studios.FindAsync(id);
+
+    if (studio is null) return Results.NotFound();
+
+    db.Studios.Remove(studio);
+    await db.SaveChangesAsync();
+    return Results.Ok(studio);
+});
+
 
 app.Run();

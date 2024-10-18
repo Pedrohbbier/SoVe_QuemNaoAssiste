@@ -9,6 +9,7 @@ const MoviesList: React.FC = () => {
   useEffect(() => {
     axios.get('http://localhost:5119/movies')
       .then((response) => {
+        console.log(response)
         setMovies(response.data);
         setLoading(false);
       })
