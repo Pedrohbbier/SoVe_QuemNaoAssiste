@@ -94,3 +94,30 @@ Content-Type: application/json
 
 ### Delete an actor by ID
 DELETE http://localhost:5119/actors/1
+
+### listar estudios
+GET http://localhost:5119/studios
+
+### consultar estudio por ID
+GET http://localhost:5119/studios/2
+
+### adicionar um estudio
+POST http://localhost:5119/studios
+Content-Type: application/json
+
+{
+  "Name": "Kojima Productions",
+  "Country": "Japan"
+}
+
+### atualizar um estudio
+PUT http://localhost:5119/studios/3
+Content-Type: application/json
+
+{
+  "Name": "Ubisoft",
+  "Country": "France"
+}
+
+### deletar studio
+DELETE http://localhost:5119/studios/4

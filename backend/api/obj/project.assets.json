@@ -2830,19 +2830,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/pedrohbbier/.nuget/packages/": {}
+    "C:\\Users\\jeser\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/api.csproj",
+      "projectUniqueName": "C:\\Users\\jeser\\OneDrive\\Desktop\\proj\\SoVe_QuemNaoAssiste\\backend\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/api.csproj",
-      "packagesPath": "/Users/pedrohbbier/.nuget/packages/",
-      "outputPath": "/Users/pedrohbbier/Documents/faculdade/SoVe_QuemNaoAssiste/backend/api/obj/",
+      "projectPath": "C:\\Users\\jeser\\OneDrive\\Desktop\\proj\\SoVe_QuemNaoAssiste\\backend\\api\\api.csproj",
+      "packagesPath": "C:\\Users\\jeser\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jeser\\OneDrive\\Desktop\\proj\\SoVe_QuemNaoAssiste\\backend\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/pedrohbbier/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\jeser\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2909,7 +2909,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
