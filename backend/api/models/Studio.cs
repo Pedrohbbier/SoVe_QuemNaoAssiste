@@ -5,11 +5,11 @@ namespace api.models
     public class Studio
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Country { get; set; }
+        public required string Name { get; set; }
+        public required string Country { get; set; }
 
         // Navigation property
         [JsonIgnore]
-        public List<Movies> Movies { get; set; }
+        public required List<Movies> Movies { get; set; }
     }
 }

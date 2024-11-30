@@ -121,3 +121,4 @@ Content-Type: application/json
 
 ### deletar studio
 DELETE http://localhost:5119/studios/4
+
