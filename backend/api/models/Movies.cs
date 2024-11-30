@@ -11,6 +11,7 @@ namespace api.models
         public required List<int> ActorIds { get; set; } // List of Actor IDs
         public required string Synopsis { get; set; }
         public required string Country { get; set; }
+        public required int assessment { get; set; }
 
         [JsonIgnore]
         // Navigation properties

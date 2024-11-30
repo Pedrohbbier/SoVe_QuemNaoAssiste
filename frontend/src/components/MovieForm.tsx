@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, Grid, Typography, CircularProgress, Autocomplete, Snackbar } from '@mui/material';
+import { TextField, Button, Grid, Typography, CircularProgress, Autocomplete, Snackbar, Rating } from '@mui/material';
 import { useParams } from 'react-router-dom'; // Para obter o ID da URL
 
-// Definindo o tipo de um ator
 interface Actor {
   id: number;
   name: string;
 }
 
-// Definindo o tipo do filme
 interface Movie {
   name: string;
   directorId: number | null;
@@ -17,6 +15,7 @@ interface Movie {
   actorIds: number[];
   synopsis: string;
   country: string;
+  assessment: number;
 }
 
 const initialMovieState: Movie = {
@@ -26,13 +25,14 @@ const initialMovieState: Movie = {
   actorIds: [],
   synopsis: '',
   country: '',
+  assessment: 5,
 };
 
 const MovieForm: React.FC = () => {
   const { id } = useParams(); // Obter o ID da URL
   const [movie, setMovie] = useState<Movie>(initialMovieState);
   const [directors, setDirectors] = useState<any[]>([]);
-  const [actors, setActors] = useState<Actor[]>([]); // Tipando atores
+  const [actors, setActors] = useState<Actor[]>([]);
   const [studios, setStudios] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -47,11 +47,10 @@ const MovieForm: React.FC = () => {
       .then(response => setActors(response.data))
       .catch(error => console.error('Error fetching actors:', error));
 
-    axios.get('http://localhost:5119/studios') // Fetch studios
+    axios.get('http://localhost:5119/studios')
       .then(response => setStudios(response.data))
       .catch(error => console.error('Error fetching studios:', error));
 
-    // Se houver um ID, buscar os dados do filme para edição
     if (id) {
       axios.get(`http://localhost:5119/movies/${id}`)
         .then(response => setMovie(response.data))
@@ -76,11 +75,13 @@ const MovieForm: React.FC = () => {
     setMovie({ ...movie, studioId: value?.id || null });
   };
 
+  const handleAssessmentChange = (event: React.SyntheticEvent, value: number | null) => {
+    setMovie({ ...movie, assessment: value || 1 });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
-    console.warn('MOVIE', movie)
 
     const saveOrUpdate = id
       ? axios.put(`http://localhost:5119/movies/${id}`, movie)
@@ -99,7 +100,7 @@ const MovieForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: 20 }} >
+    <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
       <Typography variant="h4" gutterBottom>{id ? 'Edit Movie' : 'Add Movie'}</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -117,16 +118,16 @@ const MovieForm: React.FC = () => {
             options={directors}
             getOptionLabel={(option) => option.name}
             onChange={handleDirectorChange}
-            value={directors.find(d => d.id === movie.directorId) || null} // Preencher o valor selecionado
+            value={directors.find(d => d.id === movie.directorId) || null}
             renderInput={(params) => <TextField {...params} label="Director" />}
           />
         </Grid>
         <Grid item xs={6}>
           <Autocomplete
-            options={studios} // Studio select
+            options={studios}
             getOptionLabel={(option) => option.name}
             onChange={handleStudioChange}
-            value={studios.find(s => s.id === movie.studioId) || null} // Preencher o valor selecionado
+            value={studios.find(s => s.id === movie.studioId) || null}
             renderInput={(params) => <TextField {...params} label="Studio" />}
           />
         </Grid>
@@ -136,7 +137,7 @@ const MovieForm: React.FC = () => {
             options={actors}
             getOptionLabel={(option) => option.name}
             onChange={handleActorsChange}
-            value={actors.filter((a: Actor) => movie.actorIds.includes(a.id))} // Tipado corretamente
+            value={actors.filter((a: Actor) => movie.actorIds.includes(a.id))}
             renderInput={(params) => <TextField {...params} label="Actors" />}
           />
         </Grid>
@@ -158,6 +159,17 @@ const MovieForm: React.FC = () => {
             value={movie.country}
             onChange={handleInputChange}
             required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography component="legend">Assessment</Typography>
+          <Rating
+            name="assessment"
+            value={movie.assessment}
+            onChange={handleAssessmentChange}
+            precision={1}
+            size="large"
+            style={{ color: 'gold' }}
           />
         </Grid>
         <Grid item xs={12}>

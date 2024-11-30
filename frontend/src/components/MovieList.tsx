@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid, Card, CardContent, Typography, Button, CircularProgress } from '@mui/material';
+import { Grid, Card, CardContent, Typography, Button, CircularProgress, Rating } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; // Para redirecionar
 
 const MoviesList: React.FC = () => {
@@ -35,13 +35,20 @@ const MoviesList: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h5">{movie.name}</Typography>
-              <Typography variant="body2">{movie.synopsis}</Typography>
+              <Typography variant="body2" style={{ marginBottom: '10px' }}>{movie.synopsis}</Typography>
               <Typography variant="caption">Country: {movie.country}</Typography>
+              <div style={{ marginTop: '10px' }}>
+                <Rating
+                  value={movie.assessment} // Avaliação do filme
+                  readOnly // Torna o componente não editável
+                  precision={0.5} // Permite valores intermediários
+                />
+              </div>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => handleEdit(movie.id)} // Botão de Editar
-                style={{ marginTop: '10px' , marginLeft: '20px'}}
+                style={{ marginTop: '10px' }}
               >
                 Edit Movie
               </Button>
