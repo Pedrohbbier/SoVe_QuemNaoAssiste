@@ -11,7 +11,7 @@ const MovieReviewForm = () => {
     const [message, setMessage] = useState("");
 
     // Atualiza o estado quando os campos do formulário mudam
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -20,7 +20,7 @@ const MovieReviewForm = () => {
     };
 
     // Submissão do formulário
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         // Validação da nota
@@ -36,7 +36,7 @@ const MovieReviewForm = () => {
                 movieId: parseInt(movieId, 10), // Certifique-se de enviar números
                 movieTitle,
                 comment,
-                rating: parseInt(rating, 10),
+                rating,
             });
 
             // Define mensagem de sucesso e reseta o formulário

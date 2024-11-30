@@ -10,6 +10,6 @@ namespace api.models
 
         // Navigation property
         [JsonIgnore]
-        public required List<Movies> Movies { get; set; }
+        public  List<Movies>? Movies { get; set; }
     }
 }

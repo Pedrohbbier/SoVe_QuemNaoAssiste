@@ -10,16 +10,19 @@ builder.Services.AddDbContext<MoviesDbContext>();
 // Configure CORS to allow requests from the React app
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
-        builder => builder.WithOrigins("http://localhost:3000") // Front-end URL
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
 });
-
 
 var app = builder.Build();
 
-app.UseCors("AllowReactApp");
+app.UseCors();
+
 
 
 // Ensure the database is created and updated with migrations

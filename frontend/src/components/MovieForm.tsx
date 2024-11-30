@@ -80,6 +80,8 @@ const MovieForm: React.FC = () => {
     e.preventDefault();
     setLoading(true);
 
+    console.warn('MOVIE', movie)
+
     const saveOrUpdate = id
       ? axios.put(`http://localhost:5119/movies/${id}`, movie)
       : axios.post('http://localhost:5119/movies', movie);

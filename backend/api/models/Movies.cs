@@ -12,11 +12,11 @@ namespace api.models
         public required string Synopsis { get; set; }
         public required string Country { get; set; }
 
-        // Navigation properties
-        public required Director Director { get; set; }
-        public required Studio Studio { get; set; } // Adicionando a propriedade Studio
-
         [JsonIgnore]
-        public required List<Actors> Actors { get; set; }
+        // Navigation properties
+        public Director ?Director { get; set; }
+        public Studio ?Studio { get; set; } // Adicionando a propriedade Studio
+
+        public List<Actors> ?Actors { get; set; }
     }
 }

@@ -65,41 +65,5 @@ namespace api.Controllers
 
             return Ok(director);
         }
-
-        // POST: api/Directors/5/upload-image
-        [HttpPost("{id}/upload-image")]
-        public async Task<IActionResult> UploadImage(int id, IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("Nenhum arquivo enviado.");
-            }
-
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolder, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            var director = await _context.Directors.FindAsync(id);
-            if (director == null)
-            {
-                return NotFound();
-            }
-
-            director.ImagePath = $"/uploads/{fileName}";
-            await _context.SaveChangesAsync();
-
-            return Ok(new { ImagePath = director.ImagePath });
-        }
     }
 }
