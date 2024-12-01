@@ -70,6 +70,7 @@ const StudioList: React.FC = () => {
               >
                 Edit
               </Button>
+              <Button/>
             </ListItemSecondaryAction>
           </ListItem>
         ))}

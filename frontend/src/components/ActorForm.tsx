@@ -18,6 +18,7 @@ const ActorForm: React.FC = () => {
   const [actor, setActor] = useState<Actor>(initialActorState);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     // Se houver um ID, buscar os dados do ator para edição
@@ -53,6 +54,23 @@ const ActorForm: React.FC = () => {
       });
   };
 
+  const handleDelete = () => {
+    if (!id) return;
+    setDeleteLoading(true);
+  
+    axios.delete(`http://localhost:5119/actors/${id}`)
+      .then(() => {
+        setDeleteLoading(false);
+        alert('Actor deleted successfully');
+        window.location.href = '/actors';
+      })
+      .catch((error) => {
+        console.error('Error deleting actor:', error);
+        setDeleteLoading(false);
+      });
+  };
+  
+
   return (
     <form onSubmit={handleSubmit} style={{ marginTop: 20 }} >
       <Typography variant="h4" gutterBottom>{id ? 'Edit Actor' : 'Add Actor'}</Typography>
@@ -85,6 +103,15 @@ const ActorForm: React.FC = () => {
             disabled={loading}
           >
             {loading ? <CircularProgress size={24} /> : 'Save Actor'}
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleDelete}
+            disabled={deleteLoading}
+            style={{ marginLeft: '16px' }}
+          >
+            {deleteLoading ? <CircularProgress size={24} /> : 'Delete'}
           </Button>
         </Grid>
       </Grid>

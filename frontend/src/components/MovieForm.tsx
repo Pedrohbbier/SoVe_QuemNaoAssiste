@@ -36,6 +36,7 @@ const MovieForm: React.FC = () => {
   const [studios, setStudios] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     // Fetch directors, actors, and studios when the component loads
@@ -98,6 +99,23 @@ const MovieForm: React.FC = () => {
         setLoading(false);
       });
   };
+
+  const handleDelete = () => {
+    if (!id) return;
+    setDeleteLoading(true);
+  
+    axios.delete(`http://localhost:5119/movies/${id}`)
+      .then(() => {
+        setDeleteLoading(false);
+        alert('Movie deleted successfully');
+        window.location.href = '/movies';
+      })
+      .catch((error) => {
+        console.error('Error deleting movie:', error);
+        setDeleteLoading(false);
+      });
+  };
+  
 
   return (
     <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
@@ -180,6 +198,15 @@ const MovieForm: React.FC = () => {
             disabled={loading}
           >
             {loading ? <CircularProgress size={24} /> : 'Save Movie'}
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleDelete}
+            disabled={deleteLoading}
+            style={{ marginLeft: '16px' }}
+          >
+            {deleteLoading ? <CircularProgress size={24} /> : 'Delete'}
           </Button>
         </Grid>
       </Grid>

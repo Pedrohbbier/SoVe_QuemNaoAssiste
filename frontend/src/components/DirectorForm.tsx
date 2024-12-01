@@ -18,6 +18,7 @@ const DirectorForm: React.FC = () => {
   const [director, setDirector] = useState<Director>(initialDirectorState);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     // Se houver um ID, buscar os dados do diretor para edição
@@ -53,6 +54,23 @@ const DirectorForm: React.FC = () => {
       });
   };
 
+  const handleDelete = () => {
+    if (!id) return;
+    setDeleteLoading(true);
+  
+    axios.delete(`http://localhost:5119/directors/${id}`)
+      .then(() => {
+        setDeleteLoading(false);
+        alert('Director deleted successfully');
+        window.location.href = '/directors';
+      })
+      .catch((error) => {
+        console.error('Error deleting director:', error);
+        setDeleteLoading(false);
+      });
+  };
+  
+
   return (
     <form onSubmit={handleSubmit} style={{ marginTop: 20 }} >
       <Typography variant="h4" gutterBottom>{id ? 'Edit Director' : 'Add Director'}</Typography>
@@ -85,6 +103,15 @@ const DirectorForm: React.FC = () => {
             disabled={loading}
           >
             {loading ? <CircularProgress size={24} /> : 'Save Director'}
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleDelete}
+            disabled={deleteLoading}
+            style={{ marginLeft: '16px' }}
+          >
+            {deleteLoading ? <CircularProgress size={24} /> : 'Delete'}
           </Button>
         </Grid>
       </Grid>

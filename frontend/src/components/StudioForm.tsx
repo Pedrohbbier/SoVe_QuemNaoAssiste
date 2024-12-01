@@ -18,6 +18,8 @@ const StudioForm: React.FC = () => {
   const [studio, setStudio] = useState<Studio>(initialStudioState);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
 
   useEffect(() => {
     // Se houver um ID, buscar os dados do estúdio para edição
@@ -53,6 +55,23 @@ const StudioForm: React.FC = () => {
       });
   };
 
+  const handleDelete = () => {
+    if (!id) return;
+    setDeleteLoading(true);
+  
+    axios.delete(`http://localhost:5119/studios/${id}`)
+      .then(() => {
+        setDeleteLoading(false);
+        alert('Studio deleted successfully');
+        window.location.href = '/studios'; //retorna paralista de studios
+      })
+      .catch((error) => {
+        console.error('Error deleting studio:', error);
+        setDeleteLoading(false);
+      });
+  };
+  
+
   return (
     <form onSubmit={handleSubmit} style={{ marginTop: 20 }} >
       <Typography variant="h4" gutterBottom>{id ? 'Edit Studio' : 'Add Studio'}</Typography>
@@ -85,6 +104,15 @@ const StudioForm: React.FC = () => {
             disabled={loading}
           >
             {loading ? <CircularProgress size={24} /> : 'Save Studio'}
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleDelete}
+            disabled={deleteLoading}
+            style={{ marginLeft: '16px' }}
+          >
+            {deleteLoading ? <CircularProgress size={24} /> : 'Delete'}
           </Button>
         </Grid>
       </Grid>
